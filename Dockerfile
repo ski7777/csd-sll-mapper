@@ -65,9 +65,9 @@ WORKDIR /libredwg/golibredwg
 RUN go mod init github.com/ski7777/golibredwg
 RUN go mod tidy
 
-COPY ./example /example
+COPY ./src /src
 
-WORKDIR /example
+WORKDIR /src
 ENV CGO_ENABLED=1
 ENV CCACHE_DIR=/cache/ccache
 ENV CGO_CFLAGS="-I/libredwg/include -I/libredwg/src -I/usr/local/include -Wno-stringop-overflow"
@@ -77,11 +77,11 @@ RUN \
     --mount=type=cache,target=/root/.cache/go-build \
     go build \
     -ldflags="-s -w" \
-    -o /bin/example \
+    -o /bin/csd-sll-mapper \
     ./cmd
 
 
 FROM alpine:latest
 
 RUN --mount=type=bind,from=libredwg,source=/,target=/libredwg-root cp /libredwg-root/usr/local/lib/libredwg* /usr/local/lib/
-COPY --from=golang-builder /bin/example /bin/example
+COPY --from=golang-builder /bin/csd-sll-mapper /bin/csd-sll-mapper
