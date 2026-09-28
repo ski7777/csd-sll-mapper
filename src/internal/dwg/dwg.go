@@ -143,7 +143,7 @@ func getAttributes(
 
 	attributeIndex := 0
 
-	for i, p := range refs {
+	for _, p := range refs {
 		if p == 0 {
 			continue
 		}
