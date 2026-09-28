@@ -17,7 +17,7 @@ func main() {
 
 	filename := os.Args[1]
 
-	objs, err, warnings := dwg.LoadDWG(filename, []string{"Infostand"})
+	objs, err, warnings := dwg.LoadDWG(filename, []string{"Infostand", "Gastrostand"})
 	if err != nil {
 		log.Fatalln(err)
 	}
