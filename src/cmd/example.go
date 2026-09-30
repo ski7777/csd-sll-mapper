@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 
 	"github.com/ski7777/csd-sll-mapper/internal/dwg"
 	"github.com/ski7777/csd-sll-mapper/internal/pretix"
@@ -64,8 +65,13 @@ func loadptx() (err error) {
 		}
 		for _, o := range orders {
 			for _, p := range o.Positions {
-				for _, a := range p.Answers {
-					log.Printf("Order %s, Position %d, Question %d / %s: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
+				// just a test, not implementing 245,246 and variants of 37 yet
+				if slices.Contains([]int{37, 38, 39}, p.ItemId) {
+					for _, a := range p.Answers {
+						if slices.Contains([]string{"standname", "standnummer"}, a.QuestionIdentifier) {
+							log.Printf("Order %s, Position %d, Question %d / %s: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
+						}
+					}
 				}
 			}
 		}
