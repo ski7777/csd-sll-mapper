@@ -29,7 +29,9 @@ func loaddwg() (err error) {
 		}
 	}
 	log.Println(objs)
+	return
 }
+
 func loadptx() (err error) {
 	url, ok := os.LookupEnv("CSD_PTX_URL")
 	if !ok {
