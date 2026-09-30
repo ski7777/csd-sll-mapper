@@ -63,14 +63,19 @@ func loadptx() (err error) {
 			err = fmt.Errorf("failed to get Pretix orders: %w", err)
 			return
 		}
+
 		for _, o := range orders {
+			if !(o.Status == "p" || (o.Status == "n" && o.ValidIfPending)) {
+				continue
+			}
 			for _, p := range o.Positions {
 				// just a test, not implementing 245,246 and variants of 37 yet
-				if slices.Contains([]int{37, 38, 39}, p.ItemId) {
-					for _, a := range p.Answers {
-						if slices.Contains([]string{"standname", "standnummer"}, a.QuestionIdentifier) {
-							log.Printf("Order %s, Position %d, Question %d / %s: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
-						}
+				if !slices.Contains([]int{37, 38, 39}, p.ItemId) {
+					continue
+				}
+				for _, a := range p.Answers {
+					if slices.Contains([]string{"standname", "standnummer"}, a.QuestionIdentifier) {
+						log.Printf("Order %s, Position %d, Question %d / %s: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
 					}
 				}
 			}
