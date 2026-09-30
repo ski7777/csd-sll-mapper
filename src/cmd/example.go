@@ -65,7 +65,7 @@ func loadptx() (err error) {
 		for _, o := range orders {
 			for _, p := range o.Positions {
 				for _, a := range p.Answers {
-					log.Printf("Order %s, Position %d, Question %d / %d: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
+					log.Printf("Order %s, Position %d, Question %d / %s: Answer %s", o.Code, p.Id, a.QuestionID, a.QuestionIdentifier, a.Answer)
 				}
 			}
 		}
