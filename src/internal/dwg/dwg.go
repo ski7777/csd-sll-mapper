@@ -2,6 +2,7 @@ package dwg
 
 import (
 	"errors"
+	"log"
 	"sync"
 
 	"github.com/ski7777/csd-sll-mapper/internal/config"
@@ -14,11 +15,12 @@ func LoadAllDWGs(config *config.Config) (dwgs map[string][]dwgutil.Object, err e
 	warnings = []error{}
 	errs := []error{}
 	mu := sync.Mutex{}
-	for _, e := range config.Events {
+	for en, e := range config.Events {
 		wg.Add(1)
 		go func(filename string) {
 			defer wg.Done()
 			objs, err, dwgwarnings := dwgutil.LoadDWG(filename, e.GetAllBlockNames())
+			log.Println("Loaded DWG for event", en, "from file", filename, "with", len(objs), "objects")
 			mu.Lock()
 			defer mu.Unlock()
 			if err != nil {
@@ -26,7 +28,7 @@ func LoadAllDWGs(config *config.Config) (dwgs map[string][]dwgutil.Object, err e
 				return
 			}
 			warnings = append(warnings, dwgwarnings...)
-			dwgs[filename] = objs
+			dwgs[en] = objs
 		}(e.DwgFilePath)
 	}
 	wg.Wait()
