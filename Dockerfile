@@ -85,3 +85,4 @@ FROM alpine:latest
 
 RUN --mount=type=bind,from=libredwg,source=/,target=/libredwg-root cp /libredwg-root/usr/local/lib/libredwg* /usr/local/lib/
 COPY --from=golang-builder /bin/csd-sll-mapper /bin/csd-sll-mapper
+CMD ["/bin/csd-sll-mapper"]
