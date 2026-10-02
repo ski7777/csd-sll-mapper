@@ -19,8 +19,8 @@ func LoadAllDWGs(config *config.Config) (dwgs map[string][]dwgutil.Object, err e
 		wg.Add(1)
 		go func(filename string) {
 			defer wg.Done()
+			log.Println(e.GetAllBlockNames())
 			objs, err, dwgwarnings := dwgutil.LoadDWG(filename, e.GetAllBlockNames())
-			log.Println("Loaded DWG for event", en, "from file", filename, "with", len(objs), "objects")
 			mu.Lock()
 			defer mu.Unlock()
 			if err != nil {
