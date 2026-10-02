@@ -25,6 +25,7 @@ import "C"
 
 import (
 	"errors"
+	"log"
 	"math"
 	"slices"
 	"unsafe"
@@ -261,6 +262,7 @@ func LoadDWG(filename string, blocknames []string) (objs []Object, err error, wa
 		)
 
 		if !slices.Contains(blocknames, name) {
+			log.Println(name)
 			continue
 		}
 
