@@ -41,7 +41,9 @@ func main() {
 		dwgdata, ierr, iwarnings = dwg.LoadAllDWGs(cfg)
 		mu.Lock()
 		defer mu.Unlock()
-		errs = append(errs, ierr)
+		if ierr != nil {
+			errs = append(errs, ierr)
+		}
 		warnings = append(warnings, iwarnings...)
 	}()
 	wg.Add(1)
@@ -51,13 +53,14 @@ func main() {
 		mu.Lock()
 		defer mu.Unlock()
 		ptxdata, ierr = ptx.LoadPTX(cfg)
-		errs = append(errs, ierr)
+		if ierr != nil {
+			errs = append(errs, ierr)
+		}
 	}()
 	wg.Wait()
 	if len(errs) > 0 {
 		log.Println("Errors occured")
 		for _, e := range errs {
-			log.Println("e")
 			log.Println(e)
 		}
 		return
@@ -65,7 +68,6 @@ func main() {
 	if len(warnings) > 0 {
 		log.Println("Warnings occurred")
 		for _, w := range warnings {
-			log.Println("w")
 			log.Println(w)
 		}
 	}
