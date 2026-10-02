@@ -1,4 +1,4 @@
-package pretix
+package ptxutil
 
 import (
 	"encoding/json"
@@ -101,7 +101,7 @@ type OrderFee struct {
 type Order struct {
 	Code            string          `json:"code"`
 	Status          string          `json:"status"`
-	ValidIfPending bool            `json:"valid_if_pending"`
+	ValidIfPending  bool            `json:"valid_if_pending"`
 	RequireApproval bool            `json:"require_approval"`
 	Positions       []OrderPosition `json:"positions"`
 	Fees            []OrderFee      `json:"fees"`
