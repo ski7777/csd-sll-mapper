@@ -295,6 +295,7 @@ func LoadDWG(filename string, blocknames []string) (objs []Object, err error, wa
 
 	//debug
 	abn = slices.Compact(abn)
+	slices.Sort(abn)
 	log.Println("All block names in dwg:", abn)
 
 	libredwg.Dwg_free(dwg)
