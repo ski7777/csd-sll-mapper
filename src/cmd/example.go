@@ -72,5 +72,6 @@ func main() {
 		}
 	}
 	log.Println(dwgdata)
-	log.Println(ptxdata)
+	_ = ptxdata
+	//log.Println(ptxdata)
 }

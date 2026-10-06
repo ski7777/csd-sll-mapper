@@ -222,10 +222,11 @@ func LoadDWG(filename string, blocknames []string) (objs []Object, err error, wa
 		err = errors.Join(append([]error{errors.New("Failed reading dwg")}, errs...)...)
 		return
 	}
-	// ToDo: print warnings if any
 
 	objects := dwg.GetObject()
 	numObjects := dwg.GetNum_objects()
+	// debug
+	abn := []string{}
 
 	for i := int64(0); i < int64(numObjects); i++ {
 		obj := libredwg.Dwg_Object_Array_getitem(
@@ -261,8 +262,10 @@ func LoadDWG(filename string, blocknames []string) (objs []Object, err error, wa
 			&nameErr,
 		)
 
+		//debug
+		abn = append(abn, name)
+
 		if !slices.Contains(blocknames, name) {
-			log.Println(name)
 			continue
 		}
 
@@ -289,6 +292,10 @@ func LoadDWG(filename string, blocknames []string) (objs []Object, err error, wa
 
 		objs = append(objs, o)
 	}
+
+	//debug
+	abn = slices.Compact(abn)
+	log.Println("All block names in dwg:", abn)
 
 	libredwg.Dwg_free(dwg)
 
